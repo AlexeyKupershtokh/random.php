@@ -34,6 +34,8 @@ class MT19937Engine extends AbstractEngine
      */
     public function __construct($seed = null)
     {
+        var_dump($seed);
+
         $this->state = new \SplFixedArray(self::N + 1);
 
         if ($seed !== null) {
