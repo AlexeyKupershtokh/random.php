@@ -48,6 +48,8 @@ class MT19937Engine extends AbstractEngine
      */
     public function max()
     {
+        $x = 0x7fffffff;
+        print __LINE__ . ' ' . $x . PHP_EOL;
         return 0x7fffffff;
     }
 
@@ -56,6 +58,8 @@ class MT19937Engine extends AbstractEngine
      */
     public function min()
     {
+        $x = 0;
+        print __LINE__ . ' ' . $x . PHP_EOL;
         return 0;
     }
 
@@ -67,15 +71,38 @@ class MT19937Engine extends AbstractEngine
         if ($this->left === 0) {
             $this->nextSeed();
         }
+        $x = $this->left;
+        print __LINE__ . ' ' . $x . PHP_EOL;
 
         $this->left--;
 
+        $x = $this->left;
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
         $s1 = $this->state->current();
+
+        $x = $s1;
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
         $s1 ^= ($s1 >> 11);
+
+        $x = $s1;
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
         $s1 ^= ($s1 <<  7) & 0x9d2c5680;
+
+        $x = $s1;
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
         $s1 ^= ($s1 << 15) & 0xefc60000;
 
+        $x = $s1;
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
         $this->state->next();
+
+        $x = ($s1 ^ ($s1 >> 18)) >> 1;
+        print __LINE__ . ' ' . $x . PHP_EOL;
 
         return ($s1 ^ ($s1 >> 18)) >> 1;
     }
@@ -85,11 +112,27 @@ class MT19937Engine extends AbstractEngine
      */
     public function seed($seed)
     {
+        $x = $seed;
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
         $this->state[0] = $seed & 0xffffffff;
 
+        $x = $this->state[0];
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
         for ($i = 1; $i < self::N; $i++) {
+            $x = $i;
+            print __LINE__ . ' ' . $x . PHP_EOL;
+
             $r = $this->state[$i - 1];
+
+            $x = $r;
+            print __LINE__ . ' ' . $x . PHP_EOL;
+
             $this->state[$i] = (1812433253 * ($r ^ ($r >> 30)) + $i) & 0xffffffff;
+
+            $x = $this->state[$i];
+            print __LINE__ . ' ' . $x . PHP_EOL;
         }
     }
 
@@ -104,6 +147,9 @@ class MT19937Engine extends AbstractEngine
                 $this->state[$i],
                 $this->state[$i + 1]
             );
+
+            $x = $this->state[$i];
+            print __LINE__ . ' ' . $x . PHP_EOL;
         }
 
         for ($l = self::N - 1; $i < $l; $i++) {
@@ -112,6 +158,9 @@ class MT19937Engine extends AbstractEngine
                 $this->state[$i],
                 $this->state[$i + 1]
             );
+
+            $x = $this->state[$i];
+            print __LINE__ . ' ' . $x . PHP_EOL;
         }
 
         $this->state[$i] = $this->twist(
@@ -120,7 +169,13 @@ class MT19937Engine extends AbstractEngine
             $this->state[0]
         );
 
+        $x = $this->state[$i];
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
         $this->left = self::N;
+
+        $x = $this->left;
+        print __LINE__ . ' ' . $x . PHP_EOL;
 
         $this->state->rewind();
     }
@@ -130,6 +185,34 @@ class MT19937Engine extends AbstractEngine
      */
     private function twist($m, $u, $v)
     {
+        $x = ($u & 0x80000000);
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
+        $x = ($v & 0x7FFFFFFF);
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
+        $x = (($u & 0x80000000) | ($v & 0x7FFFFFFF));
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
+        $x = ((($u & 0x80000000) | ($v & 0x7FFFFFFF)) >> 1);
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
+        $x = ((($u & 0x80000000) | ($v & 0x7FFFFFFF)) >> 1);
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
+        $x = ($u & 0x00000001);
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
+        $x = ($u & 0x00000001);
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
+        $x = -($u & 0x00000001) & 0x9908B0DF;
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
+        $x = ($m ^ ((($u & 0x80000000) | ($v & 0x7FFFFFFF)) >> 1)
+            ^ -($u & 0x00000001) & 0x9908B0DF);
+        print __LINE__ . ' ' . $x . PHP_EOL;
+
         return ($m ^ ((($u & 0x80000000) | ($v & 0x7FFFFFFF)) >> 1)
                    ^ -($u & 0x00000001) & 0x9908B0DF);
     }
