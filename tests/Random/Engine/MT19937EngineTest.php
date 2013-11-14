@@ -32,7 +32,7 @@ class MT19937EngineTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider seedProvider
      */
-    public function testNext($seed)
+    public function testNext2($seed)
     {
         $engine = new MT19937Engine($seed);
 
